@@ -1,0 +1,106 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section id="hero" class="relative bg-rose-50 text-gray-800 overflow-hidden">
+        <div class="container mx-auto px-6 py-16 md:py-24 lg:py-32 grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6 md:space-y-8 animate-fade-in-up">
+                <h1 class="text-hero font-bold">Crafting Moments with Nature's Elegance.</h1>
+                <p class="text-lg md:text-xl text-gray-600 max-w-xl">
+                    Discover our exquisite collection of floral arrangements, designed to bring beauty and joy to your life's special occasions.
+                </p>
+                <a href="#products" class="inline-block bg-rose-500 text-white font-medium py-3 px-10 rounded-full shadow-lg hover:bg-rose-600 transition-all duration-300 transform hover:scale-105">
+                    Shop Our Bouquets
+                </a>
+            </div>
+            <div class="flex flex-col md:flex-row justify-center p-8 lg:p-12 bg-white rounded-3xl shadow-xl space-y-6 md:space-x-8">
+    
+    <div class="md:w-1/2 flex-shrink-0">
+        <img src="{% static 'images\peony.jpg' %}" alt="Glorious Peony" class="w-full h-auto object-cover rounded-2xl">
+    </div>
+
+    <div class="md:w-1/2 flex flex-col justify-center space-y-4">
+        <h2 class="text-3xl font-bold text-gray-800">Featured Flower of the Week</h2>
+        <h3 class="text-2xl font-semibold text-rose-500">The Glorious Peony</h3>
+        
+        <p class="text-lg text-gray-600 leading-relaxed">
+            Symbolizing prosperity, good fortune, and a happy life, the peony is a classic choice for any special occasion. Our fresh, vibrant peonies are in season and perfect for adding a touch of elegance to your home or as a thoughtful gift.
+        </p>
+    </div>
+</div>
+        </div>
+    </section>
+
+    <section id="products" class="py-12 md:py-16">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-8">Our Signature Arrangements</h2>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for product in products %}
+            <div class="relative bg-white rounded-2xl shadow-lg overflow-hidden group transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-48 object-cover">
+                <div class="p-4 text-center">
+                    <h3 class="text-lg font-semibold mb-1">{{ product.name }}</h3>
+                    <p class="text-gray-600 mb-3">${{ product.price }}</p>
+                    <a href="{% url 'product' product.id %}" class="bg-rose-500 text-white font-medium py-2 px-6 text-sm rounded-full hover:bg-rose-600 transition-colors">View Product</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+    <!-- Services Section -->
+    <section id="services" class="bg-gray-100 py-16 md:py-24">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12">Why Choose Blossom Bloom?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                <div class="flex flex-col items-center p-6 bg-white rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div class="bg-rose-100 p-4 rounded-full mb-4">
+                        <svg class="w-12 h-12 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-2">Freshness Guaranteed</h3>
+                    <p class="text-gray-600 max-w-xs mx-auto">
+                        We hand-pick the freshest blooms, ensuring your arrangement stays beautiful longer.
+                    </p>
+                </div>
+                <div class="flex flex-col items-center p-6 bg-white rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div class="bg-rose-100 p-4 rounded-full mb-4">
+                        <svg class="w-12 h-12 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-2">Artisanal Craftsmanship</h3>
+                    <p class="text-gray-600 max-w-xs mx-auto">
+                        Each bouquet is a unique piece of art, created by our skilled floral designers.
+                    </p>
+                </div>
+                <div class="flex flex-col items-center p-6 bg-white rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div class="bg-rose-100 p-4 rounded-full mb-4">
+                        <svg class="w-12 h-12 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.79 4 4s-1.79 4-4 4c-1.742 0-3.223-.835-3.772-2M7.5 10.5h.008v.008H7.5v-.008zm11 0h.008v.008H18.5v-.008zm-11 3h.008v.008H7.5v-.008zm11 0h.008v.008H18.5v-.008z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-2">Personalized Experience</h3>
+                    <p class="text-gray-600 max-w-xs mx-auto">
+                        We work with you to create the perfect arrangement for your specific needs and style.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="bg-rose-600 text-white py-16 md:py-24">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-4">Ready to find your perfect bouquet?</h2>
+            <p class="text-lg mb-8 max-w-2xl mx-auto">
+                Explore our full collection and let us help you create an unforgettable gift.
+            </p>
+            <a href="#products" class="inline-block bg-white text-rose-600 font-bold py-3 px-12 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300">
+                Start Shopping Now
+            </a>
+
+
+        </div>
+    </section>
+
+{% endblock %}    
+

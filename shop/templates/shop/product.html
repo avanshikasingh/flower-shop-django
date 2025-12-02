@@ -1,0 +1,130 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="container mx-auto px-6 py-16 md:py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+        <!-- Product Image Section -->
+        <div class="relative w-full overflow-hidden rounded-3xl shadow-xl">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-auto object-cover">
+        </div>
+
+        <!-- Product Details Section -->
+        <div class="flex flex-col justify-center space-y-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800">{{ product.name }}</h1>
+            
+            <div class="text-2xl font-semibold text-rose-500">
+                ${{ product.price }}
+            </div>
+
+            <!-- Average Rating -->
+            <div class="flex items-center space-x-1 text-yellow-400">
+                {% for i in "12345" %}
+                    {% if forloop.counter <= average_rating %}
+                        ★
+                    {% else %}
+                        ☆
+                    {% endif %}
+                {% endfor %}
+                <span class="text-gray-600 ml-2">({{ reviews.count }} reviews)</span>
+            </div>
+
+            <!-- Product Description -->
+            <p class="text-lg text-gray-600 leading-relaxed">
+                {{ product.description|linebreaksbr }}
+            </p>
+
+            <!-- Quantity Selector and Add to Cart Button -->
+            <div class="flex items-center space-x-4">
+                <div class="col-md-2">Quantity:</div>
+                <div class="col-md-2">
+                    <select class="form-select" id="qty-cart">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="button" value="{{ product.id }}" class="bg-rose-500 text-white font-medium py-2 px-6 text-sm rounded-full hover:bg-rose-600 transition-colors" id="add-cart">Add to cart</button>
+            <a href="{% url 'add_to_wishlist' product.id %}"
+               class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-pink-600 transition">
+               ❤️ Add to Wishlist
+            </a>
+
+            <!-- Additional Details -->
+            <div class="mt-8 pt-8 border-t border-gray-200 space-y-4">
+                <h4 class="text-2xl font-semibold text-gray-800">Product Details</h4>
+                <ul class="list-disc list-inside space-y-2 text-gray-600">
+                    <li><span class="font-bold text-gray-800">Freshness:</span> Guaranteed to last at least 7 days.</li>
+                    <li><span class="font-bold text-gray-800">Delivery:</span> Available in a 10-mile radius.</li>
+                    <li><span class="font-bold text-gray-800">Care Instructions:</span> Included with every order.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Reviews Section -->
+<section class="container mx-auto px-6 py-12">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">Customer Reviews</h2>
+
+    <!-- List of Reviews -->
+    {% for review in reviews %}
+        <div class="mb-6 p-4 border rounded-lg shadow-sm bg-gray-50">
+            <div class="flex items-center space-x-2 text-yellow-400">
+                {% for i in "12345" %}
+                    {% if forloop.counter <= review.rating %}
+                        ★
+                    {% else %}
+                        ☆
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <p class="mt-2 text-gray-700">{{ review.comment }}</p>
+            <small class="text-gray-500">by {{ review.user.username }} on {{ review.created_at|date:"M d, Y" }}</small>
+        </div>
+    {% empty %}
+        <p class="text-gray-600">No reviews yet. Be the first to review this product!</p>
+    {% endfor %}
+
+    <!-- Review Form -->
+    {% if user.is_authenticated %}
+        <h3 class="text-2xl font-semibold mt-8 mb-4">Leave a Review</h3>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600">
+                Submit Review
+            </button>
+        </form>
+    {% else %}
+        <p class="text-gray-600 mt-6">You must <a href="{% url 'login' %}" class="text-blue-500">login</a> to leave a review.</p>
+    {% endif %}
+</section>
+
+<script>
+// Add to cart
+$(document).on('click', '#add-cart', function(e){
+    e.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'cart_add' %}",
+        data: {
+            product_id: $('#add-cart').val(),
+            product_qty: $('#qty-cart option:selected').text(), 
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success:function(json){
+            document.getElementById("cart_quantity").textContent = json.qty
+        },
+        error: function(xhr, errmsg, err){
+            console.log("Error: " + errmsg);
+        }
+    });
+})
+</script>
+{% endblock %}

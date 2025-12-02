@@ -1,0 +1,29 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+
+<!-- Main Content for Register Page -->
+    <main class="flex-grow flex items-center justify-center p-6">
+        <div class="w-full max-w-md bg-white rounded-3xl shadow-xl p-8 md:p-12">
+            <h2 class="text-4xl font-bold text-center mb-2 text-gray-800">Create an Account.</h2>
+            <p class="text-center text-gray-600 mb-8">Join Blossom Bloom today to start shopping!</p>
+            
+            <form action="{% url 'register' %}" method="POST" class="space-y-6">
+                 {% csrf_token %}
+
+                 {{ form.as_p }}
+                 <br><br>
+
+                 <button type="submit", class="'btn btn-secondary">Register</button>   
+            </form>
+            
+            <div class="mt-8 text-center">
+                <p class="text-sm text-gray-600">
+                    Already have an account? 
+                    <a href="#" class="font-medium text-rose-500 hover:text-rose-600 transition-colors">Login here.</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

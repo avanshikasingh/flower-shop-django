@@ -1,0 +1,33 @@
+{% extends "shop/base.html" %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-screen bg-red-50">
+  <div class="bg-white p-8 rounded-2xl shadow-lg text-center max-w-lg">
+    <div class="flex justify-center mb-4">
+      <!-- Error Icon -->
+      <svg class="w-20 h-20 text-red-500" fill="none" stroke="currentColor" stroke-width="2"
+           viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0a9 9 0 0118 0z"/>
+      </svg>
+    </div>
+
+    <h1 class="text-2xl font-bold text-red-600 mb-2">Payment Failed</h1>
+    <p class="text-gray-600 mb-6">
+      Something went wrong while processing your payment.  
+      Please try again or choose another payment method.
+    </p>
+
+    <div class="space-x-4">
+      <a href="{% url 'checkout' %}"
+         class="px-6 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700 transition">
+        Try Again
+      </a>
+      <a href="{% url 'home' %}"
+         class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg shadow hover:bg-gray-300 transition">
+        Back to Home
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

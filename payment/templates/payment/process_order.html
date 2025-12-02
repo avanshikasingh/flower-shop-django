@@ -1,0 +1,70 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-6 md:p-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Processing order......</h1>
+
+<!-- order information -->
+        <div class="space-y-6">
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h2 class="text-xl font-semibold mb-3">Order Information</h2>
+                <ul class="list-none space-y-2 text-gray-700">
+                    {% for product in cart_products %}
+                    <li>
+                        {{ product.name }}:
+                        ${{ product.price }}
+                        <br>
+
+                        <small>Quantity:
+                        {% for key, value in quantities.items %}
+                            {% if key == product.id|slugify %}
+                                {{ value }}
+                            {% endif %}
+                        {% endfor %}
+                        </small>
+                        <br><br>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                Total: ${{ totals }}
+                <br><br>
+                <a href="{% url 'cart_detail' %}" class="bg-blue-500 text-white px-4 py-2 rounded-full">Update Product</a>
+            </div>
+
+
+        <br>
+
+        <!-- shipping information -->
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h2 class="text-xl font-semibold mb-3">Shipping Information</h2>
+                
+              Name: {{ shipping_info.shipping_full_name }} <br>
+              Email: {{ shipping_info.shipping_email }} <br>
+              Address1: {{ shipping_info.shipping_address1 }} <br>
+              Address2: {{ shipping_info.shipping_address2 }} <br>
+              City: {{ shipping_info.shipping_city }} <br>
+              State: {{ shipping_info.shipping_state }} <br>
+              Zipcode: {{ shipping_info.shipping_zipcode }} <br>
+              Country: {{ shipping_info.shipping_country }} <br>
+              <br>
+              <a href="{% url 'checkout' %}" class="bg-blue-500 text-white px-4 py-2 rounded-full">Update Shipping</a>
+            </div>
+        <br>
+
+<!-- Billing Information -->
+        <div class="border border-gray-200 rounded-lg p-4">
+            <h2 class="text-xl font-semibold mb-3">Billing Information</h2> 
+            <form action="{% url 'process_order' %}" method="POST">
+                {{ billing_form.as_p }}
+        </div>
+
+<br><br>
+        <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded-full update-cart">Pay Now</button>
+            </form>
+       </div>
+    </div>
+</div>
+{% endblock %}
+

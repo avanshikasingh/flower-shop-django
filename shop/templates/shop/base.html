@@ -1,0 +1,261 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blossom Bloom - Elegant Florist Template</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for 'Playfair Display' and 'Lato' -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="bg-gray-50 antialiased">
+
+    <!-- Header Section -->
+    <header class="bg-white sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-3xl font-bold text-gray-800 tracking-wide">Blossom.</a>
+            <nav class="hidden md:flex items-center space-x-10">
+                <a href="{% url 'home' %}" class="text-gray-600 hover:text-rose-500 transition-colors duration-300">Home</a>
+
+    <!-- Simple Categories Dropdown Menu -->
+                <div class="relative group">
+                    <button class="text-gray-600 hover:text-rose-500 transition-colors duration-300 flex items-center space-x-1 focus:outline-none">
+                        <span>Categories</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <!-- Dropdown Content -->
+                    <div class="absolute z-50 hidden group-hover:block w-48 bg-white shadow-lg rounded-xl mt-2 transition-all duration-300 transform scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100">
+                        <div class="p-2 space-y-1">
+                            <a href="{% url 'home' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">All Bouquets</a>
+                            <a href="{% url 'category' 'Birthday' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Birthdays</a>
+                            <a href="{% url 'category' 'Anniversaries' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Anniversaries</a>
+                            <a href="{% url 'category' 'Roses' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Roses</a>
+                            <a href="{% url 'category' 'Tulips' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Tulips</a>
+                            <a href="{% url 'category' 'Lilies' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Lilies</a>
+                            <a href="{% url 'category' 'Potted-Plants' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Potted Plants</a>
+                            <a href="{% url 'category' 'Gift-Baskets' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Gift Baskets</a>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#services" class="text-gray-600 hover:text-rose-500 transition-colors duration-300">Services</a>
+
+                {% if user.is_authenticated %}
+                <div class="relative group">
+                    <button class="text-gray-600 hover:text-rose-500 transition-colors duration-300 flex items-center space-x-1 focus:outline-none">
+                        <span>Profile</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <!-- Dropdown Content -->
+                    <div class="absolute z-50 hidden group-hover:block w-48 bg-white shadow-lg rounded-xl mt-2 transition-all duration-300 transform scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100">
+                        <div class="p-2 space-y-1">
+                            <a href="{% url 'update_user' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">User Profile</a>
+                            <a href="{% url 'update_info' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">User Info</a>
+                        </div>
+                    </div>
+                </div>
+
+                {% if user.is_superuser %}
+                <div class="relative group">
+                    <button class="text-gray-600 hover:text-rose-500 transition-colors duration-300 flex items-center space-x-1 focus:outline-none">
+                        <span>Orders</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <!-- Dropdown Content -->
+                    <div class="absolute z-50 hidden group-hover:block w-48 bg-white shadow-lg rounded-xl mt-2 transition-all duration-300 transform scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100">
+                        <div class="p-2 space-y-1">
+                            <a href="{% url 'shipped_dash' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Shipped Orders</a>
+                            <a href="{% url 'not_shipped_dash' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">UnShipped Orders</a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+
+
+                <a href="{% url 'logout' %}" class="text-gray-600 hover:text-rose-500 transition-colors duration-300">Logout</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="text-gray-600 hover:text-rose-500 transition-colors duration-300">Login</a>
+                <a href="{% url 'register' %}" class="text-gray-600 hover:text-rose-500 transition-colors duration-300">Register</a>
+                {% endif %}
+
+            </nav><br>
+            <form class="flex items-center space-x-2" action="{% url 'search_results' %}" method="get">
+                 <input type="text" name="q" placeholder="Search for flowers..."
+                  class="px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-rose-500">
+                  <button type="submit" class="bg-rose-500 text-white px-4 py-2 rounded-full hover:bg-rose-600 transition-colors">
+                    Search
+                  </button>
+            </form>
+
+            <div class="flex items-center space-x-4">
+                <a href="{% url 'cart_detail' %}" class="relative text-gray-600 hover:text-rose-500 transition-colors duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                     <span id="cart_quantity" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                        {{ cart|length }}
+                    </span>
+                </a>
+
+                <!-- Wishlist Icon (New) -->
+                <a href="{% url 'wishlist' %}" class="text-gray-600 hover:text-rose-500 transition-colors duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 22.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                </a>
+
+                <button id="mobile-menu-btn" class="md:hidden text-gray-600 hover:text-rose-500 transition-colors duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+
+        </div>
+
+    <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg py-2">
+    <a href="{% url 'home' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100">Home</a>
+
+    <div class="relative group">
+        <button class="w-full text-left px-6 py-2 text-gray-600 hover:bg-gray-100 flex items-center justify-between focus:outline-none">
+            <span>Categories</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </button>
+        <div class="z-50 hidden group-hover:block w-full bg-gray-50 rounded-md mt-1 transition-all duration-300 transform scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100">
+            <div class="p-2 space-y-1">
+                <a href="{% url 'home' %}" class="block px-8 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">All Bouquets</a>
+                <a href="{% url 'category' 'Birthday' %}" class="block px-8 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Birthdays</a>
+                <a href="{% url 'category' 'Anniversaries' %}" class="block px-8 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Anniversaries</a>
+                <a href="{% url 'category' 'Roses' %}" class="block px-8 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Roses</a>
+                <a href="{% url 'category' 'Tulips' %}" class="block px-8 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Tulips</a>
+                <a href="{% url 'category' 'Lilies' %}" class="block px-8 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Lilies</a>
+                <a href="{% url 'category' 'Potted-Plants' %}" class="block px-8 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Potted Plants</a>
+                <a href="{% url 'category' 'Gift-Baskets' %}" class="block px-8 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Gift Baskets</a>
+            </div>
+        </div>
+    </div>
+
+{% if user.is_authenticated %}
+    <div class="relative group">
+        <button class="w-full text-left px-6 py-2 text-gray-600 hover:bg-gray-100 flex items-center justify-between focus:outline-none">
+            <span>Profile</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </button>
+        <div class="z-50 hidden group-hover:block w-full bg-gray-50 rounded-md mt-1 transition-all duration-300 transform scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100">
+            <div class="p-2 space-y-1">
+                <a href="{% url 'update_user' %}" class="block px-8 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">User Profile</a>
+                <a href="{% url 'update_info' %}" class="block px-8 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">User Info</a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+    {% if user.is_superuser %}
+    <div class="relative group">
+        <button class="w-full text-left px-6 py-2 text-gray-600 hover:bg-gray-100 flex items-center justify-between focus:outline-none">
+            <span>Orders</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </button>
+        <div class="z-50 hidden group-hover:block w-full bg-gray-50 rounded-md mt-1 transition-all duration-300 transform scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100">
+            <div class="p-2 space-y-1">
+                <a href="{% url 'shipped_dash' %}" class="block px-8 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Shipped Orders</a>
+                <a href="{% url 'not_shipped_dash' %}" class="block px-8 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">UnShipped Orders</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <a href="#services" class="block px-6 py-2 text-gray-600 hover:bg-gray-100">Services</a>
+
+    {% if user.is_authenticated %}
+    <a href="{% url 'logout' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100">Logout</a>
+    {% else %}
+    <a href="{% url 'login' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100">Login</a>
+    <a href="{% url 'register' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100">Register</a>
+    {% endif %}
+</div>
+
+    {% if messages %}
+        {% for message in messages %}
+             <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+    {% block content %}
+    {% endblock %}
+
+
+    <!-- Footer Section -->
+    <footer id="contact" class="bg-gray-800 text-gray-300 py-12">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-2xl font-bold mb-4 text-white">Blossom.</h3>
+                <p class="text-gray-400">Handcrafted bouquets for every occasion, delivered with care.</p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-rose-500 transition-colors duration-300">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07c3.252.148 4.654 1.491 4.793 4.755.058 1.265.07 1.645.07 4.849 0 3.204-.012 3.584-.07 4.85-.149 3.264-1.503 4.665-4.793 4.754-1.265.058-1.645.07-4.849.07s-3.585-.012-4.85-.07c-3.265-.149-4.665-1.503-4.794-4.754-.058-1.265-.07-1.645-.07-4.849 0-3.204.013-3.584.07-4.849.149-3.264 1.503-4.665 4.794-4.754 1.265-.058 1.645-.07 4.849-.07zm0-2.163c-3.259 0-3.667.014-4.947.073-4.218.204-5.918 2.05-6.122 6.264-.059 1.28-.073 1.688-.073 4.946s.014 3.667.073 4.947c.204 4.218 2.05 5.918 6.264 6.122 1.28.059 1.688.073 4.946.073s3.667-.014 4.947-.073c4.218-.204 5.918-2.05 6.122-6.264.059-1.28.073-1.688.073-4.946s-.014-3.667-.073-4.947c-.204-4.218-2.05-5.918-6.264-6.122-1.28-.059-1.688-.073-4.946-.073zM12 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.868 0-1.573.705-1.573 1.573s.705 1.573 1.573 1.573 1.573-.705 1.573-1.573-.705-1.573-1.573-1.573z"></path></svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-rose-500 transition-colors duration-300">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.25 6.425c-.775.345-1.6.575-2.475.68a4.542 4.542 0 00-3.29-1.29c-3.1 0-5.61 2.51-5.61 5.61 0 .44.05.87.14 1.28-4.66-.23-8.79-2.47-11.55-5.87-.48.83-.75 1.76-.75 2.76 0 1.95 1 3.66 2.5 4.67-1.12 0-2.17-.34-3.09-.85v.06c0 2.72 1.93 4.97 4.49 5.48-.47.13-.97.2-1.48.2-.36 0-.71-.03-1.05-.1 1.63 5.37 6.37 9.29 12.01 9.4-4.85 3.8-10.96 5.86-17.65 5.86-.88 0-1.75-.05-2.59-.15 6.27 4.02 13.73 6.38 21.71 6.38 2.6 0 5.1-.38 7.49-1.14 7.02-3.13 11.57-9.52 11.57-16.59 0-.25-.01-.5-.02-.75.8-5.5-2.02-8.62-5.18-10.63z"></path></svg>
+                    </a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4 text-white">Shop</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-rose-500 transition-colors duration-300">Bouquets</a></li>
+                    <li><a href="#" class="hover:text-rose-500 transition-colors duration-300">Wedding Florals</a></li>
+                    <li><a href="#" class="hover:text-rose-500 transition-colors duration-300">Sympathy Flowers</a></li>
+                    <li><a href="#" class="hover:text-rose-500 transition-colors duration-300">Gift Baskets</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4 text-white">About</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-rose-500 transition-colors duration-300">Our Story</a></li>
+                    <li><a href="#" class="hover:text-rose-500 transition-colors duration-300">Blog</a></li>
+                    <li><a href="#" class="hover:text-rose-500 transition-colors duration-300">Careers</a></li>
+                    <li><a href="#" class="hover:text-rose-500 transition-colors duration-300">FAQ</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4 text-white">Contact</h4>
+                <p class="text-gray-400">123 Bloom Street,<br>Garden City, GC 12345</p>
+                <p class="text-gray-400 mt-2">hello@blossom.com</p>
+                <p class="text-gray-400">+1 (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="container mx-auto px-6 mt-8 pt-8 border-t border-gray-700 text-center text-gray-500">
+            &copy; 2024 Blossom Bloom. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Hide mobile menu after clicking a link
+                document.getElementById('mobile-menu').classList.add('hidden');
+            });
+        });
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

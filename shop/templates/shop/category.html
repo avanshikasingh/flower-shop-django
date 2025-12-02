@@ -1,0 +1,47 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="container mx-auto px-6 py-16 md:py-24">
+    <h1 class="text-4xl md:text-5xl font-bold text-center mb-8 text-gray-800">
+        {{ category.name }}
+    </h1>
+    <p class="text-lg text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+        Explore our beautiful collection of {{ category.name|lower }} arrangements, hand-picked for their quality and charm.
+    </p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% if products %}
+            {% for product in products %}
+            <div class="relative bg-white rounded-3xl shadow-xl overflow-hidden group card-hover transition-transform duration-300">
+                <a href="{% url 'product' product.id %}" class="block">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-80 object-cover">
+                </a>
+                <div class="p-6 text-center">
+                    <h3 class="text-2xl font-semibold mb-2">{{ product.name }}</h3>
+                    <p class="text-gray-600 mb-4">${{ product.price }}</p>
+                    
+                    <a href="{% url 'product' product.id %}" class="inline-block bg-rose-500 text-white font-medium py-3 px-8 rounded-full shadow-lg hover:bg-rose-600 transition-colors">
+                        View Product
+                    </a>
+                </div>
+                 <div class="card-overlay absolute inset-0 bg-white bg-opacity-90 flex flex-col items-center justify-center space-y-4 opacity-0 transform translate-y-full group-hover:translate-y-0 transition-all duration-500">
+                    <h3 class="text-2xl font-semibold">{{ product.name }}</h3>
+                    <p class="text-gray-600">${{ product.price }}</p>
+                    <a href="{% url 'product' product.id %}" class="bg-rose-500 text-white font-medium py-3 px-8 rounded-full hover:bg-rose-600 transition-colors">
+                        Add to Cart
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="lg:col-span-3 text-center py-10">
+                <p class="text-xl text-gray-700">No products found in this category yet.</p>
+                <a href="{% url 'home' %}" class="inline-block mt-6 bg-rose-500 text-white font-medium py-3 px-8 rounded-full shadow-lg hover:bg-rose-600 transition-colors">
+                    Back to Home
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

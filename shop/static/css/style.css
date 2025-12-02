@@ -1,0 +1,16 @@
+body {
+            font-family: 'Lato', sans-serif;
+            color: #555;
+        }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+        .text-hero {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            line-height: 1.1;
+        }
+        .card-hover:hover .card-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
