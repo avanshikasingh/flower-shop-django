@@ -1,0 +1,121 @@
+{% extends "shop/base.html" %}
+
+{% block title %}Your Shopping Cart{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-4">
+    <h1 class="text-3xl font-bold mb-6">Your Shopping Cart</h1>
+
+    {% if cart_products %}
+    {% for product in cart_products %}
+    <section class="container mx-auto px-6 py-16 md:py-24">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+            <!-- Product Image Section -->
+            <div class="relative w-full overflow-hidden rounded-3xl shadow-xl">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-auto object-cover">
+            </div>
+
+            <!-- Product Details Section -->
+            <div class="flex flex-col justify-center space-y-8">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800">{{ product.name }}</h1>
+                
+                <div class="text-2xl font-semibold text-rose-500">
+                    ${{ product.price }}
+                </div>
+
+                <!-- Product Description -->
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    {{ product.description|linebreaksbr }}
+                </p>
+
+                <!-- Quantity Selector and Add to Cart Button -->
+                <div class="flex items-center space-x-4">
+                    <div class="col-md-2">Quantity:</div>
+                    <div class="col-md-2">
+                        <select class="form-select" id="select{{ product.id }}">
+                            {% for key, value in quantities.items %}
+                                {% if key == product.id|slugify %}
+                                    <option selected value="{{ value }}">{{ value }}</option>
+                                {% endif %}
+                            {% endfor %}
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-2">
+                    <a href="{% url 'home' %}" class="bg-rose-500 text-white px-4 py-2 rounded-full">Home</a>
+                    <button type="button" data-index="{{ product.id }}" class="bg-blue-500 text-white px-4 py-2 rounded-full update-cart">Update</button>
+                    <button type="button" data-index="{{ product.id }}" class="bg-red-500 text-white px-4 py-2 rounded-full delete-cart">Delete</button>                
+                </div>
+                </div>
+        </div>
+    </section>
+    {% endfor %}
+
+    <div class="text-right">
+        <h2>Total: ${{ totals }}</h2>  <br>
+        <a href="{% url 'checkout' %}" class="bg-green-500 text-white font-bold py-2 px-4 rounded-lg">Checkout</a>
+    </div>
+    
+
+
+
+    {% else %}
+    There's nothing in your cart...
+    {% endif %}
+    <br><br>
+</div>
+
+<script>
+//update cart
+$(document).on('click', '.update-cart', function(e){
+    e.preventDefault();
+    var productid = $(this).data('index');
+
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'cart_update' %}",
+        data: {
+            product_id: productid,
+            product_qty: $('#select' + productid + ' option:selected').val(),
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(json){
+            location.reload();
+        },
+        error: function(xhr, errmsg, err){
+            console.error("Cart update failed:", errmsg);
+        }
+    });
+});
+
+// delete cart
+$(document).on('click', '.delete-cart', function(e){
+    e.preventDefault();
+    var productid = $(this).data('index');
+
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'cart_delete' %}",   // ✅ namespaced url
+        data: {
+            product_id: productid,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(json){
+            location.reload();
+        },
+        error: function(xhr, errmsg, err){
+            console.error("Cart delete failed:", errmsg);
+        }
+    });
+});
+
+</script>
+{% endblock %}
